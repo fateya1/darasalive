@@ -1,0 +1,114 @@
+// DarasaLive database schema
+// Run: npx prisma migrate dev --name init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// ---------- Curriculum & content structure ----------
+
+model Curriculum {
+  id             String          @id @default(cuid())
+  name           String          @unique // "CBC" | "8-4-4"
+  educationLevels EducationLevel[]
+  createdAt      DateTime        @default(now())
+}
+
+model EducationLevel {
+  id           String     @id @default(cuid())
+  curriculum   Curriculum @relation(fields: [curriculumId], references: [id])
+  curriculumId String
+  name         String     // e.g. "Grade 4", "Form 2", "Senior School - STEM"
+  order        Int        // sort order within the curriculum
+  subjects     Subject[]
+
+  @@unique([curriculumId, name])
+}
+
+model Subject {
+  id               String         @id @default(cuid())
+  educationLevel   EducationLevel @relation(fields: [educationLevelId], references: [id])
+  educationLevelId String
+  name             String
+  materials        Material[]
+
+  @@unique([educationLevelId, name])
+}
+
+model ContentType {
+  id        String     @id @default(cuid())
+  name      String     @unique // "Notes" | "Exams" | "Marking Scheme" | "Lesson Plan" | "Scheme of Work"
+  materials Material[]
+}
+
+model Material {
+  id            String      @id @default(cuid())
+  subject       Subject     @relation(fields: [subjectId], references: [id])
+  subjectId     String
+  contentType   ContentType @relation(fields: [contentTypeId], references: [id])
+  contentTypeId String
+  title         String
+  fileUrl       String      // Vercel Blob URL
+  fileType      String      // "pdf" | "docx"
+  term          String?     // "Term 1", "Term 2", "Term 3"
+  year          String?
+  uploadedAt    DateTime    @default(now())
+
+  @@index([subjectId, contentTypeId])
+}
+
+// ---------- Users, auth & subscriptions ----------
+
+enum Role {
+  STUDENT
+  TEACHER
+  ADMIN
+}
+
+model User {
+  id            String         @id @default(cuid())
+  name          String
+  email         String         @unique
+  phone         String         @unique
+  passwordHash  String
+  role          Role           @default(STUDENT)
+  subscriptions Subscription[]
+  createdAt     DateTime       @default(now())
+}
+
+model SubscriptionPlan {
+  id              String         @id @default(cuid())
+  name            String         @unique // "Monthly" | "Semi-annual" | "Annual"
+  durationMonths  Int            // 1, 6, 12
+  priceKes        Int            // 300, 400, 700
+  subscriptions   Subscription[]
+}
+
+enum SubscriptionStatus {
+  PENDING
+  ACTIVE
+  EXPIRED
+  FAILED
+}
+
+model Subscription {
+  id            String            @id @default(cuid())
+  user          User              @relation(fields: [userId], references: [id])
+  userId        String
+  plan          SubscriptionPlan  @relation(fields: [planId], references: [id])
+  planId        String
+  startDate     DateTime?
+  endDate       DateTime?
+  mpesaReceipt  String?
+  status        SubscriptionStatus @default(PENDING)
+  checkoutRequestId String?        // Daraja CheckoutRequestID, used to match callbacks
+  createdAt     DateTime          @default(now())
+
+  @@index([userId, status])
+}
