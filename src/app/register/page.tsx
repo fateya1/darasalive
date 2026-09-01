@@ -73,9 +73,45 @@ function RegisterForm() {
       }
 
       setStkStatus('Check your phone and enter your M-Pesa PIN to complete payment.');
-      // Phase 2: poll subscription status or listen for the callback result
-      // instead of a flat redirect, so the UI reflects ACTIVE/FAILED state.
-      setTimeout(() => router.push('/subjects'), 3000);
+
+      // Poll the real subscription status instead of guessing — up to
+      // roughly 60 seconds, checking every 3 seconds. Safaricom's STK
+      // prompt itself times out around 60s if the user doesn't respond.
+      const subscriptionId = data.subscriptionId;
+      let attempts = 0;
+      const maxAttempts = 20;
+
+      const poll = async (): Promise<void> => {
+        attempts += 1;
+        const statusRes = await fetch(`/api/subscriptions/${subscriptionId}/status`);
+        const statusData = await statusRes.json();
+
+        if (statusData.status === 'ACTIVE') {
+          setStkStatus('Payment confirmed — welcome to DarasaLive!');
+          setTimeout(() => router.push('/subjects'), 1000);
+          return;
+        }
+
+        if (statusData.status === 'FAILED') {
+          setStkStatus(
+            'Payment was not completed. You can try again from your account.'
+          );
+          setLoading(false);
+          return;
+        }
+
+        if (attempts >= maxAttempts) {
+          setStkStatus(
+            'Still waiting on confirmation — this can take a moment. You can check back shortly.'
+          );
+          setLoading(false);
+          return;
+        }
+
+        setTimeout(poll, 3000);
+      };
+
+      poll();
     } catch {
       setError('Network error — please check your connection and try again.');
       setLoading(false);

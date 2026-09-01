@@ -1,11 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { initiateStkPush } from '@/lib/mpesa';
+import { db } from '@/lib/db';
 
 // POST /api/mpesa/stkpush
 // Body: { phone: string, amount: number, subscriptionId: string }
-// Phase 2: validate the subscription belongs to the requesting user,
-// call initiateStkPush, store the returned CheckoutRequestID on the
-// Subscription row, and return it to the client for status polling.
 export async function POST(req: NextRequest) {
   try {
     const { phone, amount, subscriptionId } = await req.json();
@@ -19,6 +17,15 @@ export async function POST(req: NextRequest) {
       amount,
       accountReference: subscriptionId
     });
+
+    // Save the CheckoutRequestID so the callback (which only gets sent this
+    // ID, nothing else identifying) can find its way back to this row.
+    if (result.CheckoutRequestID) {
+      await db.subscription.update({
+        where: { id: subscriptionId },
+        data: { checkoutRequestId: result.CheckoutRequestID }
+      });
+    }
 
     return NextResponse.json(result);
   } catch (err) {
