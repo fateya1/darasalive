@@ -1,5 +1,8 @@
 import bcrypt from 'bcryptjs';
 import { SignJWT, jwtVerify } from 'jose';
+import { cookies } from 'next/headers';
+
+export const SESSION_COOKIE = 'darasalive_session';
 
 const secret = () => new TextEncoder().encode(process.env.JWT_SECRET);
 
@@ -24,5 +27,14 @@ export async function verifySessionToken(token: string) {
   return payload as { userId: string; role: string };
 }
 
-// TODO Phase 2: wire this into middleware.ts to protect /admin and gated routes,
-// and into a getCurrentUser() helper used by server components.
+// Server Component / Route Handler helper — reads the session cookie and
+// verifies it. Returns null if there's no session or it's invalid/expired.
+export async function getSessionUser() {
+  const token = cookies().get(SESSION_COOKIE)?.value;
+  if (!token) return null;
+  try {
+    return await verifySessionToken(token);
+  } catch {
+    return null;
+  }
+}
