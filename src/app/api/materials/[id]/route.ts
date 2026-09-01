@@ -22,7 +22,7 @@ export async function DELETE(
   // Blob delete fails, we'd rather keep the DB row (so it's retryable)
   // than end up with an orphaned file and no record of it.
   try {
-    await del(material.fileUrl, { access: 'private' });
+    await del(material.fileUrl);
   } catch (err) {
     console.error('Failed to delete blob, proceeding to delete DB record anyway:', err);
   }
