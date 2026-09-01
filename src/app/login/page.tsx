@@ -72,6 +72,12 @@ export default function LoginPage() {
 
         {error && <p className="text-sm text-red-600">{error}</p>}
 
+        <p className="text-sm">
+          <Link href="/forgot-password" className="text-ink/50 border-b border-ink/30">
+            Forgot your password?
+          </Link>
+        </p>
+
         <button
           type="submit"
           disabled={loading}

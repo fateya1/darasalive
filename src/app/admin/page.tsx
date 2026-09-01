@@ -1,5 +1,6 @@
 import { db } from '@/lib/db';
 import MaterialUploadForm from '@/components/MaterialUploadForm';
+import DeleteMaterialButton from '@/components/DeleteMaterialButton';
 
 // Route itself is already protected by src/middleware.ts (ADMIN role only).
 export default async function AdminPage() {
@@ -79,12 +80,15 @@ export default async function AdminPage() {
                   {m.year ? ` · ${m.year}` : ''}
                 </p>
               </div>
-              <a
-                href={`/api/materials/${m.id}/download`}
-                className="border-b border-ink/40 hover:border-gold"
-              >
-                Download
-              </a>
+              <div className="flex items-center gap-4">
+                <a
+                  href={`/api/materials/${m.id}/download`}
+                  className="border-b border-ink/40 hover:border-gold"
+                >
+                  Download
+                </a>
+                <DeleteMaterialButton materialId={m.id} />
+              </div>
             </div>
           ))}
         </div>

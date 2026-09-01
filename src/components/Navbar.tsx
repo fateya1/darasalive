@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { getSessionUser } from '@/lib/auth';
 import { db } from '@/lib/db';
 import LogoutButton from './LogoutButton';
+import MobileMenu from './MobileMenu';
 
 export default async function Navbar() {
   const session = await getSessionUser();
@@ -14,7 +15,7 @@ export default async function Navbar() {
     : null;
 
   return (
-    <nav className="flex items-center justify-between px-6 md:px-12 py-6 max-w-6xl mx-auto">
+    <nav className="relative flex items-center justify-between px-6 md:px-12 py-6 max-w-6xl mx-auto">
       <Link href="/" className="font-display text-xl">
         DarasaLive
       </Link>
@@ -25,6 +26,7 @@ export default async function Navbar() {
         {user ? (
           <>
             {user.role === 'ADMIN' && <Link href="/admin">Admin</Link>}
+            <Link href="/account">My account</Link>
             <span className="text-ink/50">
               {user.name} · {user.role.toLowerCase()}
             </span>
@@ -42,6 +44,8 @@ export default async function Navbar() {
           </>
         )}
       </div>
+
+      <MobileMenu user={user} />
     </nav>
   );
 }
