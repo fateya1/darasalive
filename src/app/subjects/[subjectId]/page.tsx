@@ -18,14 +18,16 @@ export default async function SubjectPage({
   const session = await getSessionUser();
 
   const activeSubscription = session
-    ? await db.subscription.findFirst({
-        where: {
-          userId: session.userId,
-          status: 'ACTIVE',
-          endDate: { gt: new Date() }
-        },
-        orderBy: { createdAt: 'desc' }
-      })
+    ? session.role === 'ADMIN'
+      ? true
+      : await db.subscription.findFirst({
+          where: {
+            userId: session.userId,
+            status: 'ACTIVE',
+            endDate: { gt: new Date() }
+          },
+          orderBy: { createdAt: 'desc' }
+        })
     : null;
 
   const materials = activeSubscription
