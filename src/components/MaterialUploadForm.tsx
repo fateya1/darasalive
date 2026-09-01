@@ -51,11 +51,16 @@ export default function MaterialUploadForm({
 
       // Uploads straight to Blob storage — the file never passes through
       // our serverless function, so there's no 4.5MB body-size limit here.
+      // access: 'private' matches the store's configuration: the returned
+      // URL isn't publicly fetchable, which is correct for paid content —
+      // it can't be shared around to bypass a subscription. Serving it back
+      // to a paying student later needs an authenticated route that calls
+      // get() server-side and streams the file (not built yet).
       const blob = await upload(
         `materials/${subjectId}/${contentTypeId}/${Date.now()}-${file.name}`,
         file,
         {
-          access: 'public',
+          access: 'private',
           handleUploadUrl: '/api/materials/blob-upload'
         }
       );
