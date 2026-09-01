@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
+import { getSessionUser } from '@/lib/auth';
 
 // GET /api/materials?subjectId=...&contentTypeId=...
 // Phase 2: add a subscription-status check before returning fileUrl —
@@ -19,9 +20,14 @@ export async function GET(req: NextRequest) {
 
 // POST /api/materials
 // Body: { subjectId, contentTypeId, title, fileUrl, fileType, term?, year? }
-// Phase 2: restrict to Role.ADMIN, pair with a Vercel Blob client-upload
-// step on the admin upload form so large files bypass this function's body.
+// Restricted to admins — called after a successful Blob upload to record
+// the material's metadata against the uploaded file.
 export async function POST(req: NextRequest) {
+  const session = await getSessionUser();
+  if (!session || session.role !== 'ADMIN') {
+    return NextResponse.json({ error: 'Not authorized' }, { status: 401 });
+  }
+
   const data = await req.json();
 
   const material = await db.material.create({ data });
