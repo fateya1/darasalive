@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { db } from '@/lib/db';
 import { getSessionUser } from '@/lib/auth';
+import MaterialsBrowser from '@/components/MaterialsBrowser';
 
 export default async function SubjectPage({
   params
@@ -37,12 +38,6 @@ export default async function SubjectPage({
         orderBy: { uploadedAt: 'desc' }
       })
     : [];
-
-  const grouped = materials.reduce<Record<string, typeof materials>>((acc, m) => {
-    const key = m.contentType.name;
-    acc[key] = acc[key] ? [...acc[key], m] : [m];
-    return acc;
-  }, {});
 
   return (
     <main className="max-w-3xl mx-auto px-6 md:px-12 py-16">
@@ -93,35 +88,15 @@ export default async function SubjectPage({
               Nothing uploaded for this subject yet — check back soon.
             </p>
           ) : (
-            Object.entries(grouped).map(([contentTypeName, items]) => (
-              <section key={contentTypeName} className="mb-10">
-                <h2 className="font-display text-lg mb-4 border-b border-board/10 pb-2">
-                  {contentTypeName}
-                </h2>
-                <div className="divide-y divide-board/10">
-                  {items.map((m) => (
-                    <div
-                      key={m.id}
-                      className="flex items-center justify-between py-3 text-sm"
-                    >
-                      <div>
-                        <p>{m.title}</p>
-                        <p className="text-ink/50 mt-1">
-                          {m.term ? `${m.term} ` : ''}
-                          {m.year ?? ''}
-                        </p>
-                      </div>
-                      <a
-                        href={`/api/materials/${m.id}/download`}
-                        className="border-b border-ink/40 hover:border-gold"
-                      >
-                        Download
-                      </a>
-                    </div>
-                  ))}
-                </div>
-              </section>
-            ))
+            <MaterialsBrowser
+              materials={materials.map((m) => ({
+                id: m.id,
+                title: m.title,
+                term: m.term,
+                year: m.year,
+                contentTypeName: m.contentType.name
+              }))}
+            />
           )}
         </>
       )}
