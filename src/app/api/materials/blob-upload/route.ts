@@ -5,7 +5,9 @@ import { getSessionUser } from '@/lib/auth';
 const ALLOWED_CONTENT_TYPES = [
   'application/pdf',
   'application/msword',
-  'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  'application/zip',
+  'application/x-zip-compressed'
 ];
 
 // POST /api/materials/blob-upload
@@ -30,7 +32,7 @@ export async function POST(request: Request): Promise<NextResponse> {
         return {
           allowedContentTypes: ALLOWED_CONTENT_TYPES,
           addRandomSuffix: true,
-          maximumSizeInBytes: 25 * 1024 * 1024 // 25MB
+          maximumSizeInBytes: 100 * 1024 * 1024 // 100MB, to accommodate zip batches
         };
       },
       onUploadCompleted: async ({ blob }) => {

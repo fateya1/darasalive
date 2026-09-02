@@ -1,5 +1,5 @@
 import { db } from '@/lib/db';
-import MaterialUploadForm from '@/components/MaterialUploadForm';
+import UploadTabs from '@/components/UploadTabs';
 import AdminMaterialsBrowser from '@/components/AdminMaterialsBrowser';
 
 // Route itself is already protected by src/middleware.ts (ADMIN role only).
@@ -10,7 +10,8 @@ export default async function AdminPage() {
     activeSubscriptionsCount,
     subjects,
     contentTypes,
-    materials
+    materials,
+    educationLevels
   ] = await Promise.all([
     db.material.count(),
     db.user.count(),
@@ -23,6 +24,10 @@ export default async function AdminPage() {
     db.material.findMany({
       include: { subject: true, contentType: true },
       orderBy: { uploadedAt: 'desc' }
+    }),
+    db.educationLevel.findMany({
+      include: { curriculum: true },
+      orderBy: { order: 'asc' }
     })
   ]);
 
@@ -58,7 +63,15 @@ export default async function AdminPage() {
           No subjects seeded yet — run the Prisma seed script before uploading materials.
         </p>
       ) : (
-        <MaterialUploadForm subjects={subjects} contentTypes={contentTypes} />
+        <UploadTabs
+          subjects={subjects}
+          contentTypes={contentTypes}
+          educationLevels={educationLevels.map((lvl) => ({
+            id: lvl.id,
+            name: lvl.name,
+            curriculumName: lvl.curriculum.name
+          }))}
+        />
       )}
 
       <h2 className="font-display text-xl mt-16 mb-6 border-b border-board/10 pb-3">
