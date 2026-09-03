@@ -42,7 +42,7 @@ const CONTENT_TYPES = [
   'Marking Scheme',
   'Lesson Plan',
   'Scheme of Work',
-  'CBA Assessment'
+  'CBE Assessment'
 ];
 
 // Subjects grouped by grade band, then mapped onto each level name below.
