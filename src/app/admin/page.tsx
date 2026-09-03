@@ -1,3 +1,4 @@
+import { Library, Users, BadgeCheck } from 'lucide-react';
 import { db } from '@/lib/db';
 import UploadTabs from '@/components/UploadTabs';
 import AdminMaterialsBrowser from '@/components/AdminMaterialsBrowser';
@@ -36,21 +37,30 @@ export default async function AdminPage() {
       <h1 className="font-display text-3xl mb-2">Admin</h1>
       <p className="text-ink/60 mb-10">Upload materials, review users, check payments.</p>
 
-      <div className="grid md:grid-cols-3 gap-px bg-board/10 mb-16">
-        <div className="bg-chalk p-6">
-          <p className="text-sm text-ink/60">Materials</p>
-          <p className="font-display text-3xl mt-2">{materialsCount}</p>
-          <p className="text-sm text-ink/50 mt-1">Notes, exams, schemes of work uploaded</p>
+      <div className="grid md:grid-cols-3 gap-4 mb-16">
+        <div className="relative bg-chalk border border-board/10 rounded-lg p-6 pt-7 overflow-hidden">
+          <span className="absolute top-0 left-0 right-0 h-1.5 bg-sky" />
+          <div className="w-12 h-12 rounded-full flex items-center justify-center bg-sky">
+            <Library className="w-6 h-6 text-white" strokeWidth={1.75} />
+          </div>
+          <p className="font-display text-3xl mt-4">{materialsCount}</p>
+          <p className="text-sm text-ink/50 mt-1">Materials — notes, exams, schemes uploaded</p>
         </div>
-        <div className="bg-chalk p-6">
-          <p className="text-sm text-ink/60">Users</p>
-          <p className="font-display text-3xl mt-2">{usersCount}</p>
-          <p className="text-sm text-ink/50 mt-1">Students and teachers registered</p>
+        <div className="relative bg-chalk border border-board/10 rounded-lg p-6 pt-7 overflow-hidden">
+          <span className="absolute top-0 left-0 right-0 h-1.5 bg-sage" />
+          <div className="w-12 h-12 rounded-full flex items-center justify-center bg-sage">
+            <Users className="w-6 h-6 text-white" strokeWidth={1.75} />
+          </div>
+          <p className="font-display text-3xl mt-4">{usersCount}</p>
+          <p className="text-sm text-ink/50 mt-1">Users — students and teachers registered</p>
         </div>
-        <div className="bg-chalk p-6">
-          <p className="text-sm text-ink/60">Active subscriptions</p>
-          <p className="font-display text-3xl mt-2">{activeSubscriptionsCount}</p>
-          <p className="text-sm text-ink/50 mt-1">Paid and currently unlocked</p>
+        <div className="relative bg-chalk border border-board/10 rounded-lg p-6 pt-7 overflow-hidden">
+          <span className="absolute top-0 left-0 right-0 h-1.5 bg-gold" />
+          <div className="w-12 h-12 rounded-full flex items-center justify-center bg-gold">
+            <BadgeCheck className="w-6 h-6 text-white" strokeWidth={1.75} />
+          </div>
+          <p className="font-display text-3xl mt-4">{activeSubscriptionsCount}</p>
+          <p className="text-sm text-ink/50 mt-1">Active subscriptions — paid and unlocked</p>
         </div>
       </div>
 

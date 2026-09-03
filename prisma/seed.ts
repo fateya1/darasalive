@@ -19,20 +19,7 @@ const CBC_LEVELS = [
   'Senior School - Arts & Sports Science'
 ];
 
-const FORM44_LEVELS = [
-  'Standard 1',
-  'Standard 2',
-  'Standard 3',
-  'Standard 4',
-  'Standard 5',
-  'Standard 6',
-  'Standard 7',
-  'Standard 8',
-  'Form 1',
-  'Form 2',
-  'Form 3',
-  'Form 4'
-];
+const FORM44_LEVELS = ['Form 3', 'Form 4'];
 
 const CONTENT_TYPES = [
   'Notes',
@@ -126,18 +113,6 @@ const SENIOR_ARTS_SPORTS_SUBJECTS = [
   'Music'
 ];
 
-const F44_PRIMARY_SUBJECTS = [
-  'English',
-  'Kiswahili',
-  'Mathematics',
-  'Science',
-  'Social Studies',
-  'Religious Education',
-  'Creative Arts',
-  'Physical Education',
-  'Life Skills'
-];
-
 const F44_SECONDARY_SUBJECTS = [
   'English',
   'Kiswahili',
@@ -168,16 +143,6 @@ const SUBJECTS_BY_LEVEL: Record<string, string[]> = {
   'Senior School - STEM': SENIOR_STEM_SUBJECTS,
   'Senior School - Social Sciences': SENIOR_SOCIAL_SCIENCES_SUBJECTS,
   'Senior School - Arts & Sports Science': SENIOR_ARTS_SPORTS_SUBJECTS,
-  'Standard 1': F44_PRIMARY_SUBJECTS,
-  'Standard 2': F44_PRIMARY_SUBJECTS,
-  'Standard 3': F44_PRIMARY_SUBJECTS,
-  'Standard 4': F44_PRIMARY_SUBJECTS,
-  'Standard 5': F44_PRIMARY_SUBJECTS,
-  'Standard 6': F44_PRIMARY_SUBJECTS,
-  'Standard 7': F44_PRIMARY_SUBJECTS,
-  'Standard 8': F44_PRIMARY_SUBJECTS,
-  'Form 1': F44_SECONDARY_SUBJECTS,
-  'Form 2': F44_SECONDARY_SUBJECTS,
   'Form 3': F44_SECONDARY_SUBJECTS,
   'Form 4': F44_SECONDARY_SUBJECTS
 };
