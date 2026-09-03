@@ -34,7 +34,16 @@ const FORM44_LEVELS = [
   'Form 4'
 ];
 
-const CONTENT_TYPES = ['Notes', 'Exams', 'Marking Scheme', 'Lesson Plan', 'Scheme of Work'];
+const CONTENT_TYPES = [
+  'Notes',
+  'Exams',
+  'Termly Exams',
+  'Mocks',
+  'Marking Scheme',
+  'Lesson Plan',
+  'Scheme of Work',
+  'CBA Assessment'
+];
 
 // Subjects grouped by grade band, then mapped onto each level name below.
 // Senior School core (English, Kiswahili, Mathematics, Community Service

@@ -22,6 +22,7 @@ export default async function Navbar() {
 
       <div className="hidden md:flex items-center gap-8 text-sm">
         <Link href="/subjects">Browse subjects</Link>
+        <Link href="/browse">Browse by type</Link>
 
         {user ? (
           <>

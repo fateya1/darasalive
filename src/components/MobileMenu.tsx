@@ -40,6 +40,9 @@ export default function MobileMenu({ user }: { user: NavUser | null }) {
           <Link href="/subjects" onClick={() => setOpen(false)}>
             Browse subjects
           </Link>
+          <Link href="/browse" onClick={() => setOpen(false)}>
+            Browse by type
+          </Link>
 
           {user ? (
             <>
