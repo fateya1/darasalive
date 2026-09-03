@@ -49,9 +49,9 @@ export default async function ContentTypePage({
       </Link>
 
       <div
-        className={`w-11 h-11 rounded-full flex items-center justify-center mt-4 ${classes.bg}`}
+        className={`w-12 h-12 rounded-full flex items-center justify-center mt-4 ${classes.bg}`}
       >
-        <Icon className={`w-5 h-5 ${classes.text}`} strokeWidth={1.75} />
+        <Icon className={`w-6 h-6 ${classes.text}`} strokeWidth={1.75} />
       </div>
       <h1 className="font-display text-3xl mt-3 mb-10">{contentType.name}</h1>
 

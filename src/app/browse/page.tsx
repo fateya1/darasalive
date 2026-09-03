@@ -24,12 +24,13 @@ export default async function BrowseByTypePage() {
             <Link
               key={ct.id}
               href={`/browse/${ct.id}`}
-              className={`group bg-chalk border border-board/10 rounded-lg p-6 transition-colors ${classes.border}`}
+              className={`group relative bg-chalk border border-board/10 rounded-lg p-6 pt-7 overflow-hidden transition-colors ${classes.border}`}
             >
+              <span className={`absolute top-0 left-0 right-0 h-1.5 ${classes.stripe}`} />
               <div
-                className={`w-11 h-11 rounded-full flex items-center justify-center ${classes.bg}`}
+                className={`w-12 h-12 rounded-full flex items-center justify-center ${classes.bg}`}
               >
-                <Icon className={`w-5 h-5 ${classes.text}`} strokeWidth={1.75} />
+                <Icon className={`w-6 h-6 ${classes.text}`} strokeWidth={1.75} />
               </div>
               <p className="font-display text-lg mt-4">{ct.name}</p>
               <p className="text-sm text-ink/50 mt-1">

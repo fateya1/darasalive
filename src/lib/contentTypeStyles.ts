@@ -46,16 +46,42 @@ export function getContentTypeStyle(name: string, index: number): ContentTypeSty
 
 export const COLOR_CLASSES: Record<
   ContentTypeStyle['color'],
-  { bg: string; text: string; border: string }
+  { bg: string; text: string; border: string; stripe: string }
 > = {
-  gold: { bg: 'bg-gold/10', text: 'text-gold-dark', border: 'group-hover:border-gold' },
-  sage: { bg: 'bg-sage/10', text: 'text-sage', border: 'group-hover:border-sage' },
-  sky: { bg: 'bg-sky/10', text: 'text-sky', border: 'group-hover:border-sky' },
-  terracotta: {
-    bg: 'bg-terracotta/10',
-    text: 'text-terracotta',
-    border: 'group-hover:border-terracotta'
+  gold: {
+    bg: 'bg-gold',
+    text: 'text-white',
+    border: 'group-hover:border-gold',
+    stripe: 'bg-gold'
   },
-  plum: { bg: 'bg-plum/10', text: 'text-plum', border: 'group-hover:border-plum' },
-  teal: { bg: 'bg-teal/10', text: 'text-teal', border: 'group-hover:border-teal' }
+  sage: {
+    bg: 'bg-sage',
+    text: 'text-white',
+    border: 'group-hover:border-sage',
+    stripe: 'bg-sage'
+  },
+  sky: {
+    bg: 'bg-sky',
+    text: 'text-white',
+    border: 'group-hover:border-sky',
+    stripe: 'bg-sky'
+  },
+  terracotta: {
+    bg: 'bg-terracotta',
+    text: 'text-white',
+    border: 'group-hover:border-terracotta',
+    stripe: 'bg-terracotta'
+  },
+  plum: {
+    bg: 'bg-plum',
+    text: 'text-white',
+    border: 'group-hover:border-plum',
+    stripe: 'bg-plum'
+  },
+  teal: {
+    bg: 'bg-teal',
+    text: 'text-white',
+    border: 'group-hover:border-teal',
+    stripe: 'bg-teal'
+  }
 };
