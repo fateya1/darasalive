@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { db } from '@/lib/db';
 import { getSessionUser } from '@/lib/auth';
 import MaterialsByTypeBrowser from '@/components/MaterialsByTypeBrowser';
+import { getContentTypeStyle, COLOR_CLASSES } from '@/lib/contentTypeStyles';
 
 export default async function ContentTypePage({
   params
@@ -14,6 +15,9 @@ export default async function ContentTypePage({
   });
 
   if (!contentType) notFound();
+
+  const { icon: Icon, color } = getContentTypeStyle(contentType.name, 0);
+  const classes = COLOR_CLASSES[color];
 
   const session = await getSessionUser();
 
@@ -44,7 +48,12 @@ export default async function ContentTypePage({
         ← Browse by type
       </Link>
 
-      <h1 className="font-display text-3xl mt-4 mb-10">{contentType.name}</h1>
+      <div
+        className={`w-11 h-11 rounded-full flex items-center justify-center mt-4 ${classes.bg}`}
+      >
+        <Icon className={`w-5 h-5 ${classes.text}`} strokeWidth={1.75} />
+      </div>
+      <h1 className="font-display text-3xl mt-3 mb-10">{contentType.name}</h1>
 
       {!session && (
         <div className="border-l-2 border-gold pl-4 py-2">

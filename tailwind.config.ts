@@ -15,6 +15,11 @@ const config: Config = {
           DEFAULT: '#D9A441',
           dark: '#B4842E'
         },
+        sage: '#6B8F71',
+        sky: '#5B84A6',
+        terracotta: '#C0654B',
+        plum: '#8B6A9C',
+        teal: '#4E8C86',
         ink: '#1B1B18'
       },
       fontFamily: {
