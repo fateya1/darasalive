@@ -2,6 +2,7 @@ import { Library, Users, BadgeCheck } from 'lucide-react';
 import { db } from '@/lib/db';
 import UploadTabs from '@/components/UploadTabs';
 import AdminMaterialsBrowser from '@/components/AdminMaterialsBrowser';
+import AddSubjectForm from '@/components/AddSubjectForm';
 
 // Route itself is already protected by src/middleware.ts (ADMIN role only).
 export default async function AdminPage() {
@@ -64,13 +65,28 @@ export default async function AdminPage() {
         </div>
       </div>
 
-      <h2 className="font-display text-xl mb-6 border-b border-board/10 pb-3">
+      <h2 className="font-display text-xl mb-4 border-b border-board/10 pb-3">
+        Add a subject
+      </h2>
+      <p className="text-sm text-ink/60 mb-6">
+        Missing a subject from the upload dropdowns? Add it here — no need to wait on a
+        developer.
+      </p>
+      <AddSubjectForm
+        educationLevels={educationLevels.map((lvl) => ({
+          id: lvl.id,
+          name: lvl.name,
+          curriculumName: lvl.curriculum.name
+        }))}
+      />
+
+      <h2 className="font-display text-xl mt-16 mb-6 border-b border-board/10 pb-3">
         Upload a material
       </h2>
 
       {subjects.length === 0 ? (
         <p className="text-sm text-ink/60">
-          No subjects seeded yet — run the Prisma seed script before uploading materials.
+          No subjects yet — add one above before uploading materials.
         </p>
       ) : (
         <UploadTabs
